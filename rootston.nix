@@ -6,11 +6,11 @@ let
   cfg = config.programs.rootston;
 
   rootstonWrapped = pkgs.writeScriptBin "rootston" ''
-    #! ${pkgs.stdenv.shell}
+    #! ${pkgs.runtimeShell}
     if [[ "$#" -ge 1 ]]; then
-      exec ${pkgs.rootston}/bin/rootston "$@"
+      exec ${pkgs.wlroots.bin}/bin/rootston "$@"
     else
-      exec ${pkgs.rootston}/bin/rootston -C ${cfg.configFile}
+      exec ${pkgs.wlroots.bin}/bin/rootston -C ${cfg.configFile}
     fi
   '';
 in {
@@ -68,7 +68,7 @@ in {
     configFile = mkOption {
       type = types.path;
       default = "/etc/rootston.ini";
-      example = literalExample "${pkgs.rootston}/etc/rootston.ini";
+      example = literalExample "${pkgs.wlroots.bin}/etc/rootston.ini";
       description = ''
         Path to the default rootston configuration file (the "config" option
         will have no effect if you change the path).
